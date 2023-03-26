@@ -1,12 +1,12 @@
 /**
- * LeetCode 674: 最长连续递增子序列
- * 输入一个数组，求该数组的最长连续递增子序列的长度
+ * LeetCode 300: 最长递增子序列
+ * 输入一个数组，求该数组的最长递增子序列的长度
  */
 #include <iostream>
 #include <algorithm>
 #include <vector>
 
-// 暴力遍历法求最长连续递增子序列
+// 暴力遍历法求最长递增子序列
 int getMaxSubQueueceLength(const std::vector<int>& nums)
 {
     int maxCount = 0;
@@ -22,8 +22,6 @@ int getMaxSubQueueceLength(const std::vector<int>& nums)
             if (nums[j] > curMax) {
                 curMax = nums[j];
                 curCount++;
-            } else {
-                break;
             }
         }
         maxCount = std::max(maxCount, curCount);
@@ -35,12 +33,12 @@ int getMaxSubQueueceLength(const std::vector<int>& nums)
  *
  * 动态规划 思路与算法
 
-定义dp[i]为考虑前 i 个元素，以第 i 个数字结尾的最长连续上升子序列的长度，注意nums[i]
+定义dp[i]为考虑前 i 个元素，以第 i 个数字结尾的最长上升子序列的长度，注意nums[i]
 必须被选取。
 
 我们从小到大计算dp数组的值，在计算dp[i] 之前，我们已经计算出 dp[0…i−1] 的值，则状态转移方程为：
 
-if(nums[i] > nums[i-1]) dp[i] = dp[i-1] + 1;
+dp[i]=max(dp[j])+1,其中0≤j<i且num[j]<num[i]
 
 即考虑往 dp[0…i−1] 中最长的上升子序列后面再加一个nums[i]。由于
 dp[j]代表nums[0…j] 中以nums[j]结尾的最长上升子序列，所以如果能从dp[j] 这个状态转移过来，那么nums[i]必然要大于
@@ -53,11 +51,12 @@ int dpFunc(const std::vector<int>& nums)
     int result = 1;
     int numsSize = nums.size();
     std::vector<int> dp(numsSize, 0);
-    dp[0] = 1;
-    for (int i = 1; i < numsSize; i++) {
+    for (int i = 0; i < numsSize; i++) {
         dp[i] = 1;
-        if (nums[i] > nums[i - 1]) {
-            dp[i] = dp[i - 1] + 1;
+        for (int j = 0; j < i; j++) {
+            if (nums[j] < nums[i]) {
+                dp[i] = std::max(dp[j] + 1, dp[i]);
+            }
         }
         result = std::max(result, dp[i]);
     }
@@ -76,8 +75,7 @@ int main()
             std::cin >> num;
             nums.push_back(num);
         }
-        //std::cout << dpFunc(nums) << std::endl;
-        std::cout << getMaxSubQueueceLength(nums) << std::endl;
+        std::cout << dpFunc(nums) << std::endl;
     }
     return 0;
 }
