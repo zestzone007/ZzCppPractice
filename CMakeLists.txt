@@ -5,5 +5,10 @@ set(CMAKE_CXX_COMPILER /home/zest/clang+llvm-15.0.2-x86_64-unknown-linux-gnu/bin
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-project(ZzMain)
+
+project(ZzMain C CXX)
 add_executable(main main.cpp)
+
+find_package(Threads REQUIRED) 
+target_link_libraries(main Threads::Threads)
+

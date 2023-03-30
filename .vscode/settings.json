@@ -48,7 +48,13 @@
     "sstream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "condition_variable": "cpp",
+    "chrono": "cpp",
+    "ctime": "cpp",
+    "ratio": "cpp",
+    "mutex": "cpp",
+    "thread": "cpp"
   },
   //开启粘贴保存自动格式化
   "editor.formatOnPaste": true,
